@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float yMoveSpeed = 5f;
-    [SerializeField] float zMoveSpeed = 5f;
-
-    SpriteRenderer sR;
+    [SerializeField] float moveSpeed = 5f;
+    
+    private Rigidbody2D rb2D;
+    private Vector2 moveInput;
 
     void Start()
     {
-        sR = GetComponent<SpriteRenderer>();
+        rb2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        PlayerMovement();
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
     }
 
-    private void PlayerMovement()
+    void FixedUpdate()
     {
-        float yMoveAmount = Input.GetAxis("Vertical") * yMoveSpeed * Time.deltaTime;
-        float zMoveAmount = Input.GetAxis("Horizontal") * zMoveSpeed * Time.deltaTime;
-
-        transform.Translate(0, yMoveAmount, zMoveAmount);
+        rb2D.velocity = new Vector2(moveInput.x * moveSpeed, moveInput.y * moveSpeed);
     }
 }
+
+    
